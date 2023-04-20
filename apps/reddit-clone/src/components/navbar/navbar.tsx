@@ -1,6 +1,7 @@
 import { forwardRef, PropsWithChildren, useState } from 'react';
 import { BsSearch as SearchIcon } from 'react-icons/bs';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu';
 import clsx from 'clsx';
 import { BiChevronDown, BiUser as UserIcon } from 'react-icons/bi';
 import {
@@ -15,6 +16,78 @@ import {
   AccordionItemProps,
   AccordionTriggerProps,
 } from '@radix-ui/react-accordion';
+
+const dropdownOptions = [
+  { Icon: QuestionIcon, label: 'Help Center', link: '' },
+  {
+    Icon: InfoIcon,
+    label: 'More',
+    children: [
+      {
+        label: 'Reddit iOS',
+        link: '',
+      },
+      {
+        label: 'Reddit Android',
+        link: '',
+      },
+      {
+        label: 'Rereddit',
+        link: '',
+      },
+      {
+        label: 'Best Communities',
+        link: '',
+      },
+      {
+        label: 'Communities',
+        link: '',
+      },
+      {
+        label: 'About Reddit',
+        link: '',
+      },
+      {
+        label: 'Blog',
+        link: '',
+      },
+      {
+        label: 'Careers',
+        link: '',
+      },
+      {
+        label: 'Press',
+        link: '',
+      },
+    ],
+  },
+  {
+    Icon: RulesIcon,
+    label: 'Terms & Policies',
+    children: [
+      {
+        label: 'User Agreement',
+        link: '',
+      },
+      {
+        label: 'Privacy Policy',
+        link: '',
+      },
+      {
+        label: 'Content Policy',
+        link: '',
+      },
+      {
+        label: 'Moderator Code of Conduct',
+        link: '',
+      },
+    ],
+  },
+  {
+    Icon: LoginIcon,
+    label: 'Log In / Sign Up',
+  },
+];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -92,83 +165,42 @@ export const Navbar = () => {
                 className="z-50 my-4 mr-5 w-52 rounded border border-gray-200 bg-white shadow"
                 id="dropdown-user"
               >
-                <DropdownMenu.Item>
-                  <a
-                    href="#"
-                    className="flex w-full items-center gap-3 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-blue-600 hover:text-white"
-                    role="menuitem"
-                  >
-                    <span>
-                      <QuestionIcon size={20} />
-                    </span>
-                    <span>Help Center</span>
-                  </a>
-                </DropdownMenu.Item>
-                <Accordion.Root type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger className="flex  w-full items-center gap-3 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-blue-600 hover:text-white">
-                      <div className="flex items-center gap-3">
-                        <span>
-                          <InfoIcon size={20} />
-                        </span>
-                        <span>More</span>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <DropdownMenu.Item>
-                        <a
-                          href="#"
-                          className="flex px-4 py-2 pl-12 text-sm font-semibold text-gray-700 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          <span>Reddit iOS</span>
-                        </a>
-                      </DropdownMenu.Item>
-                      <DropdownMenu.Item>
-                        <a
-                          href="#"
-                          className="flex px-4 py-2 pl-12 text-sm font-semibold text-gray-700 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          <span>Reddit Android</span>
-                        </a>
-                      </DropdownMenu.Item>
-                      <DropdownMenu.Item>
-                        <a
-                          href="#"
-                          className="flex px-4 py-2 pl-12 text-sm font-semibold text-gray-700 hover:bg-gray-200"
-                          role="menuitem"
-                        >
-                          <span>Rereddit</span>
-                        </a>
-                      </DropdownMenu.Item>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion.Root>
-                <DropdownMenu.Item>
-                  <a
-                    href="#"
-                    className="flex w-full items-center gap-3 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-blue-600 hover:text-white"
-                    role="menuitem"
-                  >
-                    <span>
-                      <RulesIcon size={20} />
-                    </span>
-                    <span>Terms & Policies</span>
-                  </a>
-                </DropdownMenu.Item>
-                <DropdownMenu.Item>
-                  <a
-                    href="#"
-                    className="flex w-full items-center gap-3 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-blue-600 hover:text-white"
-                    role="menuitem"
-                  >
-                    <span>
-                      <LoginIcon size={20} />
-                    </span>
-                    <span>Log In / Sign Up</span>
-                  </a>
-                </DropdownMenu.Item>
+                {dropdownOptions.map(({ Icon, label, children }) => {
+                  if (children) {
+                    return (
+                      <Accordion.Root
+                        type="single"
+                        collapsible
+                        className="w-full"
+                      >
+                        <AccordionItem value="item-1">
+                          <AccordionTrigger className="flex w-full items-center gap-3 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-blue-600 hover:text-white">
+                            <div className="flex items-center gap-3">
+                              <span>
+                                <Icon size={20} />
+                              </span>
+                              <span>{label}</span>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            {children.map(({ label }) => (
+                              <DropdownMenuItem asSub>{label}</DropdownMenuItem>
+                            ))}
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion.Root>
+                    );
+                  }
+
+                  return (
+                    <DropdownMenuItem>
+                      <span>
+                        <Icon size={20} />
+                      </span>
+                      <span>{label}</span>
+                    </DropdownMenuItem>
+                  );
+                })}
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root>
@@ -180,7 +212,7 @@ export const Navbar = () => {
 
 const AccordionItem = forwardRef<
   HTMLDivElement,
-  PropsWithChildren<{ className?: string } & AccordionItemProps>
+  PropsWithChildren<AccordionItemProps>
 >(({ children, className, ...props }, forwardedRef) => (
   <Accordion.Item
     className={clsx('mt-px overflow-hidden first:mt-0', className)}
@@ -193,7 +225,7 @@ const AccordionItem = forwardRef<
 
 const AccordionTrigger = forwardRef<
   HTMLButtonElement,
-  PropsWithChildren<{ className?: string } & AccordionTriggerProps>
+  PropsWithChildren<AccordionTriggerProps>
 >(({ children, className, ...props }, forwardedRef) => (
   <Accordion.Header>
     <Accordion.Trigger
@@ -215,7 +247,7 @@ const AccordionTrigger = forwardRef<
 
 const AccordionContent = forwardRef<
   HTMLDivElement,
-  PropsWithChildren<{ className?: string } & AccordionContentProps>
+  PropsWithChildren<AccordionContentProps>
 >(({ children, className, ...props }, forwardedRef) => (
   <Accordion.Content
     className={clsx(
@@ -261,3 +293,22 @@ const RedditLogo = () => (
     </svg>
   </>
 );
+
+const DropdownMenuItem = forwardRef<
+  HTMLDivElement,
+  PropsWithChildren<{ href?: string; asSub?: boolean } & DropdownMenuItemProps>
+>(({ children, className, asSub = false, href, ...props }, forwardedRef) => {
+  return (
+    <DropdownMenu.Item
+      ref={forwardedRef}
+      className={clsx(
+        'flex w-full cursor-pointer items-center px-4 py-2 text-sm font-semibold text-gray-700',
+        { 'pl-12 hover:bg-gray-200': asSub },
+        { 'gap-3 hover:bg-blue-600 hover:text-white': !asSub }
+      )}
+      role="menuitem"
+    >
+      {children}
+    </DropdownMenu.Item>
+  );
+});
