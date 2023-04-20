@@ -9,13 +9,7 @@
       "vite/client",
       "vitest"
     ],
-    "target": "ES6",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    "target": "ES6"
   },
   "files": [],
   "include": [],

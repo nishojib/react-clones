@@ -6,7 +6,7 @@ export function App() {
       <Navbar />
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 transition-transform xl:translate-x-0"
+        className="fixed top-0 left-0 z-30 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-20 transition-transform xl:translate-x-0"
         aria-label="Sidebar"
       >
         <div className="h-full overflow-y-auto bg-white px-3 pb-4">
